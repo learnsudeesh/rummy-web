@@ -4,7 +4,7 @@ import { toast, ToastContainer } from "react-toastify";
 import { io } from "socket.io-client";
 import Bg from "./excel1.png";
 
-const socket = io("https://rummy-backend-9pdj.onrender.com/");
+const socket = io("http://192.168.0.74:80/");
 
 // ================= TYPES =================
 

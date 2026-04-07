@@ -2,8 +2,9 @@ import html2canvas from "html2canvas";
 import { useEffect, useRef, useState } from "react";
 import { toast, ToastContainer } from "react-toastify";
 import { io } from "socket.io-client";
+import Bg from "./excel1.png";
  
-const socket = io("http://192.168.0.74:80");
+const socket = io("http://localhost:80");
  
 // ================= TYPES =================
  
@@ -254,6 +255,7 @@ function App() {
       if (data.screenshot) {
         setCompletionScreenshot(data.screenshot);
       }
+ 
       setGameStarted(false);
       setJoker(null);
     });
@@ -338,6 +340,16 @@ function App() {
   if (!joined) {
     return (
       <div style={styles.container}>
+        <img
+          src={Bg}
+          style={{
+            position: "absolute",
+            width: "100%",
+            height: "100vh",
+            zIndex: -1,
+            objectFit: "contain",
+          }}
+        />
         {/* <h2>Join Rummy Game</h2> */}
         <div style={styles.startingArea}>
           <input
@@ -356,6 +368,17 @@ function App() {
  
   return (
     <div style={styles.container}>
+      <img
+        src={Bg}
+        style={{
+          position: "absolute",
+          width: "100%",
+          height: "100vh",
+          zIndex: -1,
+          objectFit: "contain",
+        }}
+      />
+ 
       <div style={styles.playContainer}>
         <div style={styles.dragZone} ref={playAreaRef} id="play-area">
           {hand.map((card, i) => {
@@ -413,9 +436,7 @@ function App() {
                   position: "absolute",
                   left: position ? position.x : fallback.x,
                   bottom: position ? position.y : fallback.y,
-                  border: selectedCards.includes(card.id)
-                    ? "1px solid yellow"
-                    : "1px solid black",
+                  color: selectedCards.includes(card.id) ? "red" : "black",
                   cursor: isDraggingThis ? "grabbing" : "grab",
                   userSelect: "none",
                   touchAction: "none",
@@ -548,19 +569,17 @@ function App() {
             zIndex: 1000,
           }}
         >
-          <img src={completionScreenshot} style={{ width: "100%" }} alt="game complete" />
+          <img src={completionScreenshot} style={{ width: "100%" }} />
           <button
             style={{ width: "100%", padding: 8, cursor: "pointer" }}
-            onClick={() => {
-  setCompletionScreenshot(null);
-  setCardPositions({});
-}}
+            onClick={() => setCompletionScreenshot(null)}
           >
             OK
           </button>
         </div>
       )}
-      <ToastContainer autoClose={2000} />
+ 
+      <ToastContainer  autoClose={2000}/>
     </div>
   );
 }
@@ -573,10 +592,11 @@ const styles: any = {
     width: "100%",
     height: "100vh",
     overflow: "hidden",
+    background: "transparent",
   },
   playContainer: {
     position: "relative",
-    height: "200px",
+    height: "100vh",
     display: "flex",
     gap: "20px",
   },
@@ -588,6 +608,8 @@ const styles: any = {
     // background: "green",
     width: "200px",
     position: "relative",
+    display: "flex",
+    alignItems: "end",
   },
   startContainer: {
     display: "flex",
@@ -633,24 +655,23 @@ const styles: any = {
   previewCard: {
     padding: 10,
     margin: 5,
-    border: "1px solid black",
+    // border: "1px solid black",
     display: "inline-block",
     color: "gray",
   },
   playArea: {
     width: "100%",
-    height: "200px",
+    height: "100vh",
  
     // backgroundColor: "#0b6623",
     // overflow: "hidden",
   },
   other: {
     width: "500px",
-    height: "500px",
+    height: "100vh",
     right: 100,
+ 
     // backgroundColor: "#0b6623",
   },
 };
- 
- 
  
